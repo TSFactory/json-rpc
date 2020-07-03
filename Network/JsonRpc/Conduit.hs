@@ -249,9 +249,9 @@ runConduits ver d rpcSnk rpcSrc f = do
     (reqChan, msgChan) <- atomically $ (,) <$> newTBMChan 128
                                            <*> newTBMChan 128
     let inbSrc = sourceTBMChan msgChan
-        inbSnk = sinkTBMChan   msgChan True
+        inbSnk = sinkTBMChan   msgChan
         outSrc = sourceTBMChan reqChan
-        outSnk = sinkTBMChan   reqChan True
+        outSnk = sinkTBMChan   reqChan
     withAsync (rpcThread outSrc inbSnk) (g inbSrc outSnk)
   where
     rpcThread outSrc inbSnk = do
